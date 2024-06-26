@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doughnut Chart</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div style="width: 50%; margin: auto;">
+        <canvas id="myChart"></canvas>
+    </div>
+    <script src="setup.js"></script>
+    <script src="config.js"></script>
+    <script>
+        async function fetchData() {
+            // Example: Fetch data from a JSON file or API
+            const response = await fetch('data.json');
+            const data = await response.json();
+            return data;
+        }
+
+        async function initializeChart() {
+            const data = await fetchData();
+            const config = {
+                type: 'doughnut',
+                data: {
+                    labels: data.labels,
+                    datasets: [{
+                        label: data.datasetLabel,
+                        data: data.datasetData,
+                        backgroundColor: data.backgroundColor,
+                        hoverOffset: data.hoverOffset
+                    }]
+                }
+            };
+
+            var myChart = new Chart(
+                document.getElementById('myChart'),
+                config
+            );
+        }
+
+        initializeChart();
+    </script>
+</body>
+</html>
